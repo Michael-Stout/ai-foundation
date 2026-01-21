@@ -1,26 +1,122 @@
 @import "tailwindcss";
 
+/* AI CERTs Branding Colors */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary Colors */
+  --primary: #D4AF37;
+  --primary-foreground: #0D1F2D;
+
+  /* Background Colors */
+  --background: #FFFFFF;
+  --background-secondary: #F8FAFC;
+  --foreground: #0F172A;
+  --foreground-muted: #64748B;
+
+  /* Accent Colors */
+  --accent: #14B8A6;
+  --accent-foreground: #FFFFFF;
+
+  /* Semantic Colors */
+  --success: #22C55E;
+  --success-foreground: #FFFFFF;
+  --warning: #F59E0B;
+  --warning-foreground: #0F172A;
+  --error: #EF4444;
+  --error-foreground: #FFFFFF;
+
+  /* Border & Ring */
+  --border: #E2E8F0;
+  --ring: #D4AF37;
+
+  /* Card */
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+
+  /* Input */
+  --input: #E2E8F0;
+  --input-foreground: #0F172A;
+}
+
+.dark {
+  /* Primary Colors */
+  --primary: #D4AF37;
+  --primary-foreground: #0D1F2D;
+
+  /* Background Colors */
+  --background: #0D1F2D;
+  --background-secondary: #162A3A;
+  --foreground: #F8FAFC;
+  --foreground-muted: #94A3B8;
+
+  /* Accent Colors */
+  --accent: #14B8A6;
+  --accent-foreground: #FFFFFF;
+
+  /* Semantic Colors */
+  --success: #22C55E;
+  --success-foreground: #FFFFFF;
+  --warning: #F59E0B;
+  --warning-foreground: #0F172A;
+  --error: #EF4444;
+  --error-foreground: #FFFFFF;
+
+  /* Border & Ring */
+  --border: #1E3A4D;
+  --ring: #D4AF37;
+
+  /* Card */
+  --card: #162A3A;
+  --card-foreground: #F8FAFC;
+
+  /* Input */
+  --input: #1E3A4D;
+  --input-foreground: #F8FAFC;
 }
 
 @theme inline {
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-foreground-muted: var(--foreground-muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-input: var(--input);
+  --color-input-foreground: var(--input-foreground);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Custom scrollbar for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-muted);
 }
