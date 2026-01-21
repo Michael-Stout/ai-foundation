@@ -3,3 +3,4 @@ export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 export { Input } from './Input'
 export { Progress } from './Progress'
 export { Badge } from './Badge'
+export { ThemeToggle } from './ThemeToggle'

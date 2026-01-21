@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSession, signOut } from 'next-auth/react'
 import { useState } from 'react'
-import { Button } from '@/components/ui'
+import { Button, ThemeToggle } from '@/components/ui'
 
 export function Header() {
   const { data: session, status } = useSession()
@@ -12,11 +13,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-            <span className="text-lg font-bold text-primary-foreground">AI</span>
-          </div>
-          <span className="text-xl font-bold text-foreground">AI+ Foundation</span>
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/michael_stout_ai.png"
+            alt="Michael Stout AI"
+            width={128}
+            height={128}
+            className="rounded-lg"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -36,9 +40,13 @@ export function Header() {
                 Modules
               </Link>
               <div className="flex items-center gap-4">
-                <span className="text-sm text-foreground-muted">
+                <Link
+                  href="/profile"
+                  className="text-sm text-foreground-muted hover:text-foreground transition-colors"
+                >
                   {session.user?.name || session.user?.email}
-                </span>
+                </Link>
+                <ThemeToggle />
                 <Button
                   variant="outline"
                   size="sm"
@@ -50,6 +58,7 @@ export function Header() {
             </>
           ) : (
             <>
+              <ThemeToggle />
               <Link href="/login">
                 <Button variant="ghost">Sign In</Button>
               </Link>
@@ -111,6 +120,17 @@ export function Header() {
                 >
                   Modules
                 </Link>
+                <Link
+                  href="/profile"
+                  className="text-foreground-muted hover:text-foreground"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-foreground-muted">Theme</span>
+                  <ThemeToggle />
+                </div>
                 <Button
                   variant="outline"
                   onClick={() => signOut({ callbackUrl: '/' })}
@@ -120,6 +140,10 @@ export function Header() {
               </>
             ) : (
               <>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-foreground-muted">Theme</span>
+                  <ThemeToggle />
+                </div>
                 <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="ghost" className="w-full">
                     Sign In

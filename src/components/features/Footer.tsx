@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -9,15 +10,18 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                <span className="text-lg font-bold text-primary-foreground">AI</span>
-              </div>
-              <span className="text-xl font-bold text-foreground">AI+ Foundation</span>
+            <div className="flex items-center">
+              <Image
+                src="/michael_stout_ai.png"
+                alt="Michael Stout AI"
+                width={128}
+                height={128}
+                className="rounded-lg"
+              />
             </div>
             <p className="mt-4 max-w-md text-foreground-muted">
-              Master the fundamentals of artificial intelligence with our comprehensive
-              certification program. Learn at your own pace with interactive modules
+              Master the fundamentals of artificial intelligence with my comprehensive
+              learning program. Learn at your own pace with interactive modules
               and quizzes.
             </p>
           </div>
@@ -59,12 +63,12 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               <li>
                 <a
-                  href="https://aicerts.io"
+                  href="https://michaelstout.ai"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-foreground-muted hover:text-primary transition-colors"
                 >
-                  AI CERTs
+                  Michael Stout AI
                 </a>
               </li>
               <li>
@@ -79,7 +83,7 @@ export function Footer() {
 
         <div className="mt-8 border-t border-border pt-8">
           <p className="text-center text-sm text-foreground-muted">
-            &copy; {currentYear} AI CERTs. All rights reserved.
+            &copy; {currentYear} Michael Stout AI. All rights reserved.
           </p>
         </div>
       </div>

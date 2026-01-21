@@ -11,13 +11,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
   title: {
-    default: 'AI+ Foundation | AI CERTs Certification',
-    template: '%s | AI+ Foundation',
+    default: 'AI Fundamentals | Michael Stout AI',
+    template: '%s | AI Fundamentals',
   },
   description:
-    'Master the fundamentals of artificial intelligence with our comprehensive AI+ Foundation certification program. Learn about AI, prompt engineering, ethics, and future careers.',
+    'Master the fundamentals of artificial intelligence with my comprehensive AI Fundamentals program. Learn about AI, prompt engineering, ethics, and future careers.',
   keywords: [
-    'AI certification',
+    'AI fundamentals',
     'artificial intelligence',
     'AI training',
     'prompt engineering',
@@ -28,13 +28,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'AI+ Foundation',
-    title: 'AI+ Foundation Certification',
-    description: 'Comprehensive AI certification program by AI CERTs',
+    siteName: 'AI Fundamentals',
+    title: 'AI Fundamentals',
+    description: 'Comprehensive AI learning program by Michael Stout AI',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI+ Foundation Certification',
+    title: 'AI Fundamentals',
     description: 'Master the fundamentals of artificial intelligence',
   },
 }
@@ -45,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
         <Providers>{children}</Providers>
       </body>

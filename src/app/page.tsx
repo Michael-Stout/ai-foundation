@@ -12,20 +12,19 @@ export default function HomePage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-background py-20 sm:py-32">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
+          <div className="absolute inset-0 gradient-orb" />
+          <div className="absolute inset-0 hero-wave-gradient pointer-events-none" />
           <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl text-center">
               <div className="mb-6 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5">
-                <span className="text-sm font-medium text-primary">
-                  AI CERTs Certified Program
-                </span>
+                <span className="text-sm font-medium text-primary">AI Fundamentals</span>
               </div>
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
                 Master the{' '}
-                <span className="text-primary">Fundamentals of AI</span>
+                <span className="gradient-text">Fundamentals of Artificial Intelligence</span>
               </h1>
               <p className="mt-6 text-lg leading-8 text-foreground-muted">
-                The AI+ Foundation certification provides comprehensive training
+                The AI Fundamentals program provides comprehensive training
                 on artificial intelligence concepts, prompt engineering, ethics,
                 and career opportunities. Learn at your own pace with interactive
                 modules and quizzes.
@@ -64,10 +63,10 @@ export default function HomePage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground">
-                Why Choose AI+ Foundation?
+                Why Choose AI Fundamentals?
               </h2>
               <p className="mt-4 text-foreground-muted">
-                Our certification program is designed to give you practical
+                My program is designed to give you practical
                 knowledge you can apply immediately.
               </p>
             </div>
@@ -317,9 +316,9 @@ const features = [
     ),
   },
   {
-    title: 'Certification Ready',
+    title: 'Comprehensive Learning',
     description:
-      'Prepare for your AI+ Foundation certification. All content aligned with certification requirements.',
+      'Master AI fundamentals with structured content aligned with industry standards.',
     icon: (
       <svg
         className="h-6 w-6"

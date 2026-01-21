@@ -36,7 +36,7 @@ export default async function ModulesPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground">Course Modules</h1>
         <p className="mt-2 text-foreground-muted">
-          Complete all 5 modules to earn your AI+ Foundation certification
+          Complete all 5 modules to master AI fundamentals
         </p>
       </div>
 

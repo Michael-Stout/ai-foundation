@@ -62,8 +62,8 @@ export default async function QuizPage({ params }: QuizPageProps) {
         </p>
         <h1 className="mt-2 text-3xl font-bold text-foreground">{module.title}</h1>
         <p className="mt-2 text-foreground-muted">
-          {quiz.length} questions &bull; 70% required to pass
-          {attemptCount > 0 && ` &bull; ${attemptCount} previous attempt${attemptCount > 1 ? 's' : ''}`}
+          {quiz.length} questions • 70% required to pass
+          {attemptCount > 0 && ` • ${attemptCount} previous attempt${attemptCount > 1 ? 's' : ''}`}
         </p>
       </div>
 
