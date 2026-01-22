@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTheme } from 'next-themes'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,6 +17,28 @@ interface ProfileClientProps {
     email: string | null
   }
   initialTheme: 'light' | 'dark' | 'auto'
+}
+
+// Calculate sunrise and sunset times based on location (pure function)
+function calculateSunTimes(lat: number, lng: number, date: Date) {
+  const dayOfYear = Math.floor(
+    (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000
+  )
+  const declination = -23.45 * Math.cos((360 / 365) * (dayOfYear + 10) * (Math.PI / 180))
+  const latRad = lat * (Math.PI / 180)
+  const decRad = declination * (Math.PI / 180)
+  const hourAngle = Math.acos(-Math.tan(latRad) * Math.tan(decRad)) * (180 / Math.PI)
+  const solarNoon = 12 - lng / 15
+  const sunriseUTC = solarNoon - hourAngle / 15
+  const sunsetUTC = solarNoon + hourAngle / 15
+  const timezoneOffset = -date.getTimezoneOffset() / 60
+  const sunriseLocal = sunriseUTC + timezoneOffset
+  const sunsetLocal = sunsetUTC + timezoneOffset
+  const sunrise = new Date(date)
+  sunrise.setHours(Math.floor(sunriseLocal), (sunriseLocal % 1) * 60, 0, 0)
+  const sunset = new Date(date)
+  sunset.setHours(Math.floor(sunsetLocal), (sunsetLocal % 1) * 60, 0, 0)
+  return { sunrise, sunset }
 }
 
 export function ProfileClient({ user, initialTheme }: ProfileClientProps) {
@@ -36,23 +58,11 @@ export function ProfileClient({ user, initialTheme }: ProfileClientProps) {
     resolver: zodResolver(changePasswordSchema),
   })
 
-  // Apply theme based on preference
-  useEffect(() => {
-    if (selectedTheme === 'auto') {
-      applyAutoTheme()
-      // Set up interval to check every minute
-      const interval = setInterval(applyAutoTheme, 60000)
-      return () => clearInterval(interval)
-    } else {
-      setTheme(selectedTheme)
-    }
-  }, [selectedTheme, setTheme])
-
-  function applyAutoTheme() {
+  // Apply auto theme based on time of day
+  const applyAutoTheme = useCallback(() => {
     const now = new Date()
     const hour = now.getHours()
 
-    // Get user's location for accurate sunrise/sunset
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -88,45 +98,18 @@ export function ProfileClient({ user, initialTheme }: ProfileClientProps) {
         setTheme('dark')
       }
     }
-  }
+  }, [setTheme])
 
-  // Calculate sunrise and sunset times based on location
-  function calculateSunTimes(lat: number, lng: number, date: Date) {
-    // Simplified sunrise/sunset calculation
-    const dayOfYear = Math.floor(
-      (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000
-    )
-
-    // Calculate the solar declination
-    const declination = -23.45 * Math.cos((360 / 365) * (dayOfYear + 10) * (Math.PI / 180))
-
-    // Calculate the hour angle
-    const latRad = lat * (Math.PI / 180)
-    const decRad = declination * (Math.PI / 180)
-    const hourAngle = Math.acos(
-      -Math.tan(latRad) * Math.tan(decRad)
-    ) * (180 / Math.PI)
-
-    // Calculate sunrise and sunset in hours (UTC)
-    const solarNoon = 12 - lng / 15
-    const sunriseUTC = solarNoon - hourAngle / 15
-    const sunsetUTC = solarNoon + hourAngle / 15
-
-    // Get timezone offset in hours
-    const timezoneOffset = -date.getTimezoneOffset() / 60
-
-    // Convert to local time
-    const sunriseLocal = sunriseUTC + timezoneOffset
-    const sunsetLocal = sunsetUTC + timezoneOffset
-
-    const sunrise = new Date(date)
-    sunrise.setHours(Math.floor(sunriseLocal), (sunriseLocal % 1) * 60, 0, 0)
-
-    const sunset = new Date(date)
-    sunset.setHours(Math.floor(sunsetLocal), (sunsetLocal % 1) * 60, 0, 0)
-
-    return { sunrise, sunset }
-  }
+  // Apply theme based on preference
+  useEffect(() => {
+    if (selectedTheme === 'auto') {
+      applyAutoTheme()
+      const interval = setInterval(applyAutoTheme, 60000)
+      return () => clearInterval(interval)
+    } else {
+      setTheme(selectedTheme)
+    }
+  }, [selectedTheme, setTheme, applyAutoTheme])
 
   async function handleThemeChange(theme: 'light' | 'dark' | 'auto') {
     setIsChangingTheme(true)

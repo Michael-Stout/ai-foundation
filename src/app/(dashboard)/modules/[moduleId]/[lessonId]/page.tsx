@@ -3,7 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getModule, getLesson, getAdjacentLessons, modules } from '@/lib/data/modules'
 import { getLessonProgress } from '@/lib/db/queries'
-import { LessonContent, LessonNav } from '@/components/features'
+import { LessonContent } from '@/components/features'
 import { LessonActions } from './LessonActions'
 
 interface LessonPageProps {
@@ -23,9 +23,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: LessonPageProps) {
   const { moduleId, lessonId } = await params
   const lesson = getLesson(moduleId, lessonId)
-  const module = getModule(moduleId)
+  const currentModule = getModule(moduleId)
   return {
-    title: lesson ? `${lesson.title} - ${module?.title}` : 'Lesson',
+    title: lesson ? `${lesson.title} - ${currentModule?.title}` : 'Lesson',
   }
 }
 
@@ -37,10 +37,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
   }
 
   const { moduleId, lessonId } = await params
-  const module = getModule(moduleId)
+  const currentModule = getModule(moduleId)
   const lesson = getLesson(moduleId, lessonId)
 
-  if (!module || !lesson) {
+  if (!currentModule || !lesson) {
     notFound()
   }
 
@@ -58,13 +58,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
           <svg className="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Back to {module.title}
+          Back to {currentModule.title}
         </Link>
       </div>
 
       <div className="mb-8">
         <p className="text-sm text-primary font-medium">
-          Module {module.order}: {module.title}
+          Module {currentModule.order}: {currentModule.title}
         </p>
         <h1 className="mt-2 text-3xl font-bold text-foreground">{lesson.title}</h1>
       </div>

@@ -1,21 +1,21 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useSyncExternalStore } from 'react'
 import { useSession } from 'next-auth/react'
 import { updateThemePreference } from '@/lib/auth/profile-actions'
+
+const emptySubscribe = () => () => {}
+const getSnapshot = () => true
+const getServerSnapshot = () => false
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
   const { data: session } = useSession()
-  const [mounted, setMounted] = useState(false)
+  const mounted = useSyncExternalStore(emptySubscribe, getSnapshot, getServerSnapshot)
   const [isOpen, setIsOpen] = useState(false)
   const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark' | 'auto'>('dark')
   const [isSaving, setIsSaving] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   // Sync selected theme state with current theme when modal opens
   useEffect(() => {

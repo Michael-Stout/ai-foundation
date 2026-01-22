@@ -67,7 +67,7 @@ export function LessonContent({ content, objectives }: LessonContentProps) {
 
 function formatContent(content: string): string {
   // First, process special blocks
-  let processedContent = processSpecialBlocks(content)
+  const processedContent = processSpecialBlocks(content)
 
   const lines = processedContent.trim().split('\n')
   let html = ''
@@ -78,7 +78,7 @@ function formatContent(content: string): string {
   let tableRows: string[][] = []
 
   for (let i = 0; i < lines.length; i++) {
-    let line = lines[i]
+    const line = lines[i]
 
     // Skip already processed HTML blocks
     if (line.startsWith('<div') || line.startsWith('</div') || line.includes('class="')) {

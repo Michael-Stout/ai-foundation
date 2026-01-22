@@ -1,7 +1,7 @@
 import { auth } from '@/lib/auth'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
-import { Button, Card, CardContent, Badge, Progress } from '@/components/ui'
+import { Button, Badge, Progress } from '@/components/ui'
 import { getModule, modules } from '@/lib/data/modules'
 import { getUserProgress, getUserQuizAttempts } from '@/lib/db/queries'
 
@@ -17,9 +17,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: ModulePageProps) {
   const { moduleId } = await params
-  const module = getModule(moduleId)
+  const currentModule = getModule(moduleId)
   return {
-    title: module?.title || 'Module',
+    title: currentModule?.title || 'Module',
   }
 }
 
@@ -31,9 +31,9 @@ export default async function ModulePage({ params }: ModulePageProps) {
   }
 
   const { moduleId } = await params
-  const module = getModule(moduleId)
+  const currentModule = getModule(moduleId)
 
-  if (!module) {
+  if (!currentModule) {
     notFound()
   }
 
@@ -42,7 +42,7 @@ export default async function ModulePage({ params }: ModulePageProps) {
 
   const lessonProgress = progress.filter((p) => p.moduleId === moduleId)
   const completedLessons = lessonProgress.filter((p) => p.completed)
-  const progressPercent = (completedLessons.length / module.lessons.length) * 100
+  const progressPercent = (completedLessons.length / currentModule.lessons.length) * 100
   const quizPassed = quizAttempts.some((q) => q.moduleId === moduleId && q.passed)
   const bestQuizScore = quizAttempts
     .filter((q) => q.moduleId === moduleId)
@@ -65,13 +65,13 @@ export default async function ModulePage({ params }: ModulePageProps) {
       <div className="mb-8">
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
-            <span className="text-xl font-bold text-primary">{module.order}</span>
+            <span className="text-xl font-bold text-primary">{currentModule.order}</span>
           </div>
-          <h1 className="text-3xl font-bold text-foreground">{module.title}</h1>
+          <h1 className="text-3xl font-bold text-foreground">{currentModule.title}</h1>
         </div>
-        <p className="mt-3 text-foreground-muted">{module.description}</p>
+        <p className="mt-3 text-foreground-muted">{currentModule.description}</p>
         <div className="mt-3 flex items-center gap-2">
-          <Badge variant="default">{module.duration}</Badge>
+          <Badge variant="default">{currentModule.duration}</Badge>
           {quizPassed && <Badge variant="success">Completed</Badge>}
         </div>
 
@@ -79,7 +79,7 @@ export default async function ModulePage({ params }: ModulePageProps) {
           <div className="flex items-center justify-between">
             <span className="text-lg font-medium text-foreground">Module Progress</span>
             <span className="text-lg font-semibold text-primary">
-              {completedLessons.length} of {module.lessons.length} lessons completed
+              {completedLessons.length} of {currentModule.lessons.length} lessons completed
             </span>
           </div>
           <Progress value={progressPercent} size="lg" className="mt-3" />
@@ -89,7 +89,7 @@ export default async function ModulePage({ params }: ModulePageProps) {
       <div>
         <h2 className="text-xl font-semibold text-foreground mb-4">Lessons</h2>
         <div className="grid gap-4">
-        {module.lessons.map((lesson, index) => {
+        {currentModule.lessons.map((lesson, index) => {
           const isCompleted = completedLessons.some((p) => p.lessonId === lesson.id)
           const isLocked = false
           const gradients = [
@@ -178,13 +178,13 @@ export default async function ModulePage({ params }: ModulePageProps) {
       </div>
 
       {/* Labs Section */}
-      {module.labs && module.labs.length > 0 && (
+      {currentModule.labs && currentModule.labs.length > 0 && (
         <div className="mt-10 space-y-4">
           <h2 className="text-xl font-semibold text-foreground">Labs</h2>
 
           {/* Lab Cards */}
           <div className="grid gap-4">
-            {module.labs.map((lab, index) => {
+            {currentModule.labs.map((lab, index) => {
               const gradients = [
                 'from-cyan-500/10 via-blue-500/5 to-indigo-500/10 border-cyan-500/20 hover:border-cyan-500/40',
                 'from-emerald-500/10 via-green-500/5 to-teal-500/10 border-emerald-500/20 hover:border-emerald-500/40',

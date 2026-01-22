@@ -17,9 +17,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: QuizPageProps) {
   const { moduleId } = await params
-  const module = getModule(moduleId)
+  const currentModule = getModule(moduleId)
   return {
-    title: module ? `Quiz: ${module.title}` : 'Quiz',
+    title: currentModule ? `Quiz: ${currentModule.title}` : 'Quiz',
   }
 }
 
@@ -31,10 +31,10 @@ export default async function QuizPage({ params }: QuizPageProps) {
   }
 
   const { moduleId } = await params
-  const module = getModule(moduleId)
+  const currentModule = getModule(moduleId)
   const quiz = getModuleQuiz(moduleId)
 
-  if (!module || !quiz) {
+  if (!currentModule || !quiz) {
     notFound()
   }
 
@@ -52,15 +52,15 @@ export default async function QuizPage({ params }: QuizPageProps) {
           <svg className="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Back to {module.title}
+          Back to {currentModule.title}
         </Link>
       </div>
 
       <div className="mb-8 text-center">
         <p className="text-sm text-primary font-medium">
-          Module {module.order} Quiz
+          Module {currentModule.order} Quiz
         </p>
-        <h1 className="mt-2 text-3xl font-bold text-foreground">{module.title}</h1>
+        <h1 className="mt-2 text-3xl font-bold text-foreground">{currentModule.title}</h1>
         <p className="mt-2 text-foreground-muted">
           {quiz.length} questions • 70% required to pass
           {attemptCount > 0 && ` • ${attemptCount} previous attempt${attemptCount > 1 ? 's' : ''}`}
@@ -69,7 +69,7 @@ export default async function QuizPage({ params }: QuizPageProps) {
 
       <QuizClient
         moduleId={moduleId}
-        moduleTitle={module.title}
+        moduleTitle={currentModule.title}
         questions={quiz}
         hasPassed={hasPassed}
       />

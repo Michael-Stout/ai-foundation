@@ -5024,8 +5024,8 @@ export function getModule(moduleId: string): Module | undefined {
 }
 
 export function getLesson(moduleId: string, lessonId: string): Lesson | undefined {
-  const module = getModule(moduleId)
-  return module?.lessons.find((l) => l.id === lessonId)
+  const foundModule = getModule(moduleId)
+  return foundModule?.lessons.find((l) => l.id === lessonId)
 }
 
 export function getModuleQuiz(moduleId: string): QuizQuestion[] | undefined {
@@ -5036,15 +5036,15 @@ export function getAdjacentLessons(
   moduleId: string,
   lessonId: string
 ): { prev: Lesson | null; next: Lesson | null } {
-  const module = getModule(moduleId)
-  if (!module) return { prev: null, next: null }
+  const foundModule = getModule(moduleId)
+  if (!foundModule) return { prev: null, next: null }
 
-  const lessonIndex = module.lessons.findIndex((l) => l.id === lessonId)
+  const lessonIndex = foundModule.lessons.findIndex((l) => l.id === lessonId)
   if (lessonIndex === -1) return { prev: null, next: null }
 
   return {
-    prev: lessonIndex > 0 ? module.lessons[lessonIndex - 1] : null,
-    next: lessonIndex < module.lessons.length - 1 ? module.lessons[lessonIndex + 1] : null,
+    prev: lessonIndex > 0 ? foundModule.lessons[lessonIndex - 1] : null,
+    next: lessonIndex < foundModule.lessons.length - 1 ? foundModule.lessons[lessonIndex + 1] : null,
   }
 }
 
@@ -5053,6 +5053,6 @@ export function getModuleLabs(moduleId: string): Lab[] | undefined {
 }
 
 export function getLab(moduleId: string, labId: string): Lab | undefined {
-  const module = getModule(moduleId)
-  return module?.labs?.find((l) => l.id === labId)
+  const foundModule = getModule(moduleId)
+  return foundModule?.labs?.find((l) => l.id === labId)
 }
