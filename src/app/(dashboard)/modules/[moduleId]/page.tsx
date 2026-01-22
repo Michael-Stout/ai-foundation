@@ -70,10 +70,11 @@ export default async function ModulePage({ params }: ModulePageProps) {
           <h1 className="text-3xl font-bold text-foreground">{currentModule.title}</h1>
         </div>
         <p className="mt-3 text-foreground-muted">{currentModule.description}</p>
-        <div className="mt-3 flex items-center gap-2">
-          <Badge variant="default">{currentModule.duration}</Badge>
-          {quizPassed && <Badge variant="success">Completed</Badge>}
-        </div>
+        {quizPassed && (
+          <div className="mt-3">
+            <Badge variant="success">Completed</Badge>
+          </div>
+        )}
 
         <div className="mt-6">
           <div className="flex items-center justify-between">

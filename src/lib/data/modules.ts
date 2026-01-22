@@ -29,7 +29,6 @@ export interface Module {
   id: string
   title: string
   description: string
-  duration: string
   order: number
   lessons: Lesson[]
   labs?: Lab[]
@@ -41,7 +40,6 @@ export const modules: Module[] = [
     id: 'intro-to-ai',
     title: 'Introduction to AI & Its Impact',
     description: 'Understand the fundamentals of artificial intelligence, machine learning concepts, and real-world applications in healthcare and autonomous vehicles.',
-    duration: '45 min',
     order: 1,
     lessons: [
       {
@@ -963,7 +961,6 @@ Use these insights to:
     id: 'prompt-engineering',
     title: 'Prompt Engineering - Interacting with AI',
     description: 'Learn the crucial skill of designing effective prompts to guide AI models in generating accurate, relevant, and high-quality outputs across business, education, and creative industries.',
-    duration: '50 min',
     order: 2,
     lessons: [
       {
@@ -1817,7 +1814,6 @@ This lab demonstrates the importance of data-driven decision making when working
     id: 'ai-business',
     title: 'AI in Business & Industry',
     description: 'Discover how to craft effective AI strategies, leverage key AI tools, harness generative AI, and learn from real-world case studies of AI transforming business operations.',
-    duration: '55 min',
     order: 3,
     lessons: [
       {
@@ -2977,7 +2973,6 @@ The most valuable skill in AI strategy isn't knowing the latest technologies—i
     id: 'ai-ethics',
     title: 'AI Ethics & Bias',
     description: 'Explore the foundational ethical considerations in AI, understand how bias enters AI systems through data collection, examine the impact of bias on decision-making, and analyze ethical implications in healthcare AI applications.',
-    duration: '50 min',
     order: 4,
     lessons: [
       {
@@ -3965,7 +3960,6 @@ Fairness auditing is an iterative process. The metrics you've learned (DI and SP
     id: 'ai-future-careers',
     title: 'Future of AI & Careers',
     description: 'Discover how AI is addressing global challenges, reshaping industries, and transforming the job market. Learn the essential skills needed to thrive in an AI-driven world and explore a real-world case study of AI adoption at Mayo Clinic.',
-    duration: '55 min',
     order: 5,
     lessons: [
       {

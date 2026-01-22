@@ -106,28 +106,10 @@ export default function HomePage() {
               {modules.map((module) => (
                 <Card key={module.id} className="hover:border-primary/50">
                   <CardContent>
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                        <span className="text-lg font-bold text-primary">
-                          {module.order}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-foreground-muted">
-                        <svg
-                          className="h-4 w-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                        {module.duration}
-                      </div>
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                      <span className="text-lg font-bold text-primary">
+                        {module.order}
+                      </span>
                     </div>
                     <h3 className="mt-4 text-lg font-semibold text-foreground">
                       {module.title}
