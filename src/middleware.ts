@@ -4,7 +4,8 @@ import { NextResponse } from 'next/server'
 export default auth((req) => {
   const isLoggedIn = !!req.auth
   const isOnDashboard = req.nextUrl.pathname.startsWith('/dashboard') ||
-    req.nextUrl.pathname.startsWith('/modules')
+    req.nextUrl.pathname.startsWith('/modules') ||
+    req.nextUrl.pathname.startsWith('/profile')
   const isOnAuthPage = req.nextUrl.pathname.startsWith('/login') ||
     req.nextUrl.pathname.startsWith('/register')
 
@@ -20,5 +21,5 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/modules/:path*', '/login', '/register'],
+  matcher: ['/dashboard/:path*', '/modules/:path*', '/profile/:path*', '/login', '/register'],
 }
