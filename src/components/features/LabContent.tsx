@@ -1,5 +1,6 @@
 'use client'
 
+import DOMPurify from 'isomorphic-dompurify'
 import { Lab } from '@/lib/data/modules'
 
 interface LabContentProps {
@@ -170,7 +171,7 @@ export function LabContent({ lab }: LabContentProps) {
           prose-td:p-3 prose-td:border prose-td:border-border
           prose-a:text-primary prose-a:no-underline hover:prose-a:underline
         "
-        dangerouslySetInnerHTML={{ __html: formatContent(lab.content) }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatContent(lab.content)) }}
       />
     </div>
   )

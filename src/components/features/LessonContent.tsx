@@ -1,5 +1,7 @@
 'use client'
 
+import DOMPurify from 'isomorphic-dompurify'
+
 interface LessonContentProps {
   content: string
   objectives?: string[]
@@ -57,7 +59,7 @@ export function LessonContent({ content, objectives }: LessonContentProps) {
           prose-td:p-3 prose-td:border prose-td:border-border
           prose-a:text-primary prose-a:no-underline hover:prose-a:underline
         "
-        dangerouslySetInnerHTML={{ __html: formatContent(content) }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatContent(content)) }}
       />
     </div>
   )
