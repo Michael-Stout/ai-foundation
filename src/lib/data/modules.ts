@@ -5,6 +5,19 @@ export interface Lesson {
   objectives?: string[]
 }
 
+export interface Lab {
+  id: string
+  title: string
+  description: string
+  objectives: string[]
+  tools: {
+    name: string
+    url?: string
+    type: string
+  }[]
+  content: string
+}
+
 export interface QuizQuestion {
   id: string
   question: string
@@ -19,6 +32,7 @@ export interface Module {
   duration: string
   order: number
   lessons: Lesson[]
+  labs?: Lab[]
   quiz: QuizQuestion[]
 }
 
@@ -36,8 +50,8 @@ export const modules: Module[] = [
         objectives: [
           'Define artificial intelligence and its core concepts',
           'Understand the history and evolution of AI',
-          'Recognize AI core capabilities and their applications',
           'Learn key milestones in AI development',
+          'Recognize AI core capabilities and their applications',
         ],
         content: `
 ## What is Artificial Intelligence?
@@ -45,6 +59,32 @@ export const modules: Module[] = [
 :::key-concept[Definition]
 AI is the simulation of human intelligence in machines, enabling them to perform tasks such as visual perception, speech recognition, decision-making, and language translation. These capabilities are powered by advanced algorithms, machine learning, and deep learning.
 :::
+
+## History & Evolution of AI
+
+:::timeline
+:::event[1940s-1950s][Early Foundations]
+AI concepts emerged with pioneers like Alan Turing and John McCarthy, laying the groundwork with ideas like the Turing Test.
+:::event[1956][The Birth of AI]
+AI was officially founded during the Dartmouth Conference, where early research focused on symbolic reasoning and logic.
+:::event[1970s-1980s][The AI Winters]
+Progress slowed due to computational limitations, funding cuts, and the inability to meet ambitious AI goals.
+:::event[1990s-2000s][Rise of Machine Learning]
+Advances in algorithms, computational power, and Big Data led to a resurgence in AI development.
+:::event[2010s][Deep Learning Era]
+Breakthroughs in deep learning enabled AI to perform complex tasks like image and speech recognition.
+:::event[2020s][AI Everywhere]
+AI is now deeply integrated into industries such as healthcare, finance, and autonomous systems.
+:::end-timeline
+
+| Year | Milestone |
+|------|-----------|
+| 1950s | The Turing Test was introduced; early AI programs like the Logic Theorist developed |
+| 1980s | Expert systems and neural networks gained prominence |
+| 1997 | IBM's Deep Blue defeated world chess champion Garry Kasparov |
+| 2012 | Deep Learning revolutionized AI with breakthroughs in image recognition (AlexNet) |
+| 2016 | AlphaGo defeated world champion Go player Lee Sedol |
+| 2020s | AI models like GPT-3 and GPT-4 pushed boundaries in natural language understanding |
 
 ## Core Capabilities of AI
 
@@ -74,47 +114,19 @@ A subset of ML using neural networks with multiple layers to learn from large da
 A branch of AI that enables computers to understand, interpret, and generate human-like language for chatbots and voice assistants.
 :::end-grid
 
-## History & Evolution of AI
-
-:::timeline
-:::event[1940s-1950s][Early Foundations]
-AI concepts emerged with pioneers like Alan Turing and John McCarthy, laying the groundwork with ideas like the Turing Test.
-:::event[1956][The Birth of AI]
-AI was officially founded during the Dartmouth Conference, where early research focused on symbolic reasoning and logic.
-:::event[1970s-1980s][The AI Winters]
-Progress slowed due to computational limitations, funding cuts, and the inability to meet ambitious AI goals.
-:::event[1990s-2000s][Rise of Machine Learning]
-Advances in algorithms, computational power, and Big Data led to a resurgence in AI development.
-:::event[2010s][Deep Learning Era]
-Breakthroughs in deep learning enabled AI to perform complex tasks like image and speech recognition.
-:::event[2020s][AI Everywhere]
-AI is now deeply integrated into industries such as healthcare, finance, and autonomous systems.
-:::end-timeline
-
-## Key Milestones in AI
-
-| Year | Milestone |
-|------|-----------|
-| 1950s | The Turing Test was introduced; early AI programs like the Logic Theorist developed |
-| 1980s | Expert systems and neural networks gained prominence |
-| 1997 | IBM's Deep Blue defeated world chess champion Garry Kasparov |
-| 2012 | Deep Learning revolutionized AI with breakthroughs in image recognition (AlexNet) |
-| 2016 | AlphaGo defeated world champion Go player Lee Sedol |
-| 2020s | AI models like GPT-3 and GPT-4 pushed boundaries in natural language understanding |
-
 ## AI's Impact & Influence
 
 :::feature-list
-:::feature[Learning Abilities]
-Through machine learning and deep learning, AI can learn from vast datasets, improve its performance over time, and adapt to new situations.
-:::feature[Industry Revolution]
-AI is revolutionizing healthcare (diagnostics), finance (fraud detection), and manufacturing (automation), leading to increased efficiency.
-:::feature[Modern Technology]
-AI drives advancements in automation, data analysis, and real-time decision-making—from smart devices to personal assistants.
-:::feature[Enhanced Productivity]
-AI automates routine tasks, optimizes processes, and enables faster data-driven decision-making.
-:::feature[Societal Impact]
-AI reshapes how we work, communicate, and interact with technology, solving complex global challenges.
+:::feature[AI's Learning Abilities]
+Through techniques like machine learning and deep learning, AI can learn from vast datasets, improve its performance over time, and adapt to new situations, making it more effective in complex tasks.
+:::feature[Impact on Industries]
+AI is revolutionizing various industries, including healthcare (for diagnostics and drug discovery), finance (for fraud detection and investment analysis), and manufacturing (for automation and predictive maintenance), leading to increased efficiency and innovation.
+:::feature[Significance in Modern Technology]
+AI is integral to the development of modern technologies, driving advancements in automation, data analysis, and real-time decision-making. It underpins many innovations, from smart devices to AI-powered personal assistants, and plays a critical role in shaping the future of technology.
+:::feature[Enhancing Productivity]
+AI helps improve productivity by automating routine tasks, optimizing processes, and enabling faster data-driven decision-making. This frees up human resources to focus on more complex and creative tasks.
+:::feature[Societal and Economic Impact]
+AI has significant societal implications, reshaping how we work, communicate, and interact with technology. It can solve complex global challenges, from healthcare improvements to addressing climate change.
 :::end-list
         `,
       },
@@ -129,7 +141,7 @@ AI reshapes how we work, communicate, and interact with technology, solving comp
         content: `
 ## AI All Around Us
 
-:::info
+:::key-concept[AI in Daily Life]
 AI has integrated into many areas of life, improving ease, efficiency, and decision-making. From clever personal assistants to advanced data analysis systems, AI is reshaping how we interact with technology, enhancing personalization, efficiency, and convenience across diverse sectors.
 :::
 
@@ -466,6 +478,396 @@ Hands-free commuting allows drivers to focus on other activities or relax during
         `,
       },
     ],
+    labs: [
+      {
+        id: 'image-classification-lab',
+        title: 'Image Classification using Google Teachable Machine',
+        description: 'Can a machine learning model accurately distinguish between two facial expressions using image data? This lab explores how ML models learn visual patterns and highlights the impact of training data quality and quantity.',
+        objectives: [
+          'Build an image classification model without writing code',
+          'Understand how ML models learn from visual patterns',
+          'Experience the impact of training data quality and quantity',
+          'Test and analyze model behavior and limitations',
+        ],
+        tools: [
+          {
+            name: 'Google Teachable Machine',
+            url: 'https://teachablemachine.withgoogle.com/',
+            type: 'No-code, browser-based ML training platform',
+          },
+        ],
+        content: `
+## Overview
+
+In this hands-on lab, you'll use **Google Teachable Machine** to build a machine learning model that can distinguish between two facial expressions—happy and sad. No coding required!
+
+:::key-concept[What You'll Build]
+A real-time **image classification model** that recognizes facial expressions using your webcam. You'll train it, test it, and analyze how it makes decisions.
+:::
+
+:::info
+**Time:** 15-20 minutes | **Difficulty:** Beginner-friendly | **Requirements:** Webcam and modern browser
+:::
+
+:::tip[Step 1: Launch Teachable Machine]
+1. Visit [Google Teachable Machine](https://teachablemachine.withgoogle.com/)
+2. Click **"Get Started"**
+3. Choose **"Image Project"** under "Standard Image Model"
+:::
+
+:::info
+The Standard Image Model works with 224x224px color images and can be exported to TensorFlow, TFLite, and TF.js.
+:::
+
+:::tip[Step 2: Create Two Classes]
+By default, two classes appear as "Class 1" and "Class 2". Rename them:
+1. **Class 1** → Happy Face
+2. **Class 2** → Sad Face
+:::
+
+:::tip[Step 3: Add Training Data]
+For each class:
+1. Click **"Webcam"** to capture photos of your face with the desired expression
+2. Take at least **30–50 images per class** for better accuracy
+3. Alternatively, click **"Upload"** to add images from your computer
+:::
+
+:::key-concept[Data Quality Tips]
+1. Vary angles, lighting, and background to simulate real-world conditions
+2. More diverse images = better model generalization
+3. Consistent expressions help the model learn clear patterns
+:::
+
+:::tip[Step 4: Train the Model]
+1. Click **"Train Model"**
+2. Teachable Machine will preprocess the images and train a lightweight neural network in the browser
+3. The process takes approximately 30–60 seconds depending on data volume
+:::
+
+:::warning
+Don't switch browser tabs during training! The model trains in your browser and needs the tab to stay active.
+:::
+
+:::tip[Step 5: Test the Model]
+After training:
+1. Switch to the **"Preview"** panel
+2. Use your webcam live to show different expressions
+3. Observe whether the model accurately classifies "Happy" and "Sad" faces
+4. Note the **confidence score (%)** given for each prediction
+:::
+
+:::tip[Step 6: Analyze Model Behavior]
+Test the model's limits by trying different scenarios:
+:::
+
+| Test Scenario | Expected Behavior |
+|---------------|-------------------|
+| Clear happy expression | High confidence "Happy" classification |
+| Clear sad expression | High confidence "Sad" classification |
+| Poor lighting | Lower confidence, potential misclassification |
+| Neutral expression | Uncertainty between classes |
+| New person's face | May struggle if only trained on one person |
+
+:::key-concept[Learning Point]
+Misclassification highlights the **importance of diverse and sufficient data**. Adding more varied images improves model generalization and reduces overfitting.
+:::
+
+:::tip[Discussion Questions]
+1. How did the model decide between Happy and Sad?
+2. What happens when you test with a face it hasn't seen before?
+3. What if you add a third class, like "Neutral Face"?
+:::
+4. How does model performance change with more data, better lighting, or clearer expressions?
+
+## Key Takeaways
+
+- **Data quantity matters**: More training images generally improve accuracy
+- **Data diversity matters**: Varied conditions help the model generalize
+- **ML learns patterns**: The model identifies visual features that distinguish classes
+- **No-code ML is accessible**: You can build working ML models without programming
+        `,
+      },
+      {
+        id: 'supervised-unsupervised-lab',
+        title: 'Supervised vs. Unsupervised Learning',
+        description: 'Learn to identify the difference between labeled and unlabeled datasets, understand their structure, and explore how machine learning models interact with each type.',
+        objectives: [
+          'Visually identify labeled vs. unlabeled datasets',
+          'Understand when to use supervised vs. unsupervised learning',
+          'Apply classification concepts to a business scenario',
+          'Experience clustering for pattern discovery',
+        ],
+        tools: [
+          {
+            name: 'Dataset Analysis',
+            type: 'Conceptual walkthrough with sample data',
+          },
+        ],
+        content: `
+## Overview
+
+In machine learning, the type of dataset—labeled or unlabeled—determines which learning approach to use. This lab helps you visually identify the difference and understand how data labeling influences model selection.
+
+## Part 1: Supervised Learning with Labeled Data
+
+### The Dataset
+
+Examine this **labeled dataset** showing lead conversion data:
+
+| Lead Location | Gender | Company Size | Revenue | Emails | Client |
+|---------------|--------|--------------|---------|--------|--------|
+| UK | F | 5 | 500,000 | 3 | NO |
+| Ireland | F | 6 | 600,000 | 2 | NO |
+| UK | M | 6 | 600,000 | 5 | **YES** |
+| USA | F | 10 | 1,000,000 | 12 | **YES** |
+| USA | F | 3 | 300,000 | 4 | **YES** |
+| USA | M | 5 | 500,000 | 7 | **YES** |
+| Germany | M | 6 | 600,000 | 1 | NO |
+
+### Step 1: Recognize the Label
+
+:::key-concept[Key Question]
+Look at the "Client" column. What kind of values does it hold?
+:::
+
+The **Client** column contains YES or NO values—this is our **label**. Since we already know the outcome, this is a **labeled dataset** used for **supervised learning**.
+
+### Step 2: Understand the Goal
+
+**Business Context**: Imagine you're working in a sales team. Wouldn't it be useful to know which leads are likely to convert before spending time on all of them?
+
+**Goal**: Train a model to predict whether a new lead will become a client based on their profile and behavior.
+
+### Step 3: Choose the Algorithm
+
+Since our prediction is YES or NO, this is a **binary classification task**.
+
+**Suitable algorithms include:**
+- Logistic Regression (simple and interpretable)
+- Decision Trees (good with categorical + numerical data)
+- Random Forest (more accurate, but complex)
+- Support Vector Machines (for advanced use cases)
+
+### Step 4: Evaluate the Model
+
+We split data into **training (80%)** and **testing (20%)** sets.
+
+**Key Metrics:**
+| Metric | Description |
+|--------|-------------|
+| **Accuracy** | How often is the model correct overall? |
+| **Precision** | Of predicted YES, how many were actually YES? |
+| **Recall** | Of all real YES, how many did the model catch? |
+
+:::tip
+If we care about not missing high-potential clients, **recall** might be more important than precision.
+:::
+
+---
+
+## Part 2: Unsupervised Learning with Unlabeled Data
+
+### The Dataset (No Labels!)
+
+Now examine this **unlabeled dataset**:
+
+| Lead Location | Gender | Company Size | Revenue | Emails |
+|---------------|--------|--------------|---------|--------|
+| UK | F | 5 | 500,000 | 3 |
+| Ireland | F | 6 | 600,000 | 2 |
+| UK | M | 6 | 600,000 | 5 |
+| USA | F | 10 | 1,000,000 | 12 |
+| USA | F | 3 | 300,000 | 4 |
+| USA | M | 5 | 500,000 | 7 |
+| Germany | M | 6 | 600,000 | 1 |
+
+:::key-concept[Key Observation]
+There's no "Client" column! We don't know if these leads converted or not. Can we still use machine learning?
+:::
+
+**Yes!** We can use **unsupervised learning** to explore patterns.
+
+### Step 1: Understand the Features
+
+Even without labels, we have valuable features:
+- Lead Location
+- Gender
+- Company Size
+- Revenue
+- Number of Emails
+
+These provide clues for **similarity**—clustering helps group data points based on those clues.
+
+### Step 2: Apply Clustering
+
+Using **K-Means clustering**, we can divide leads into groups:
+
+1. The algorithm measures how similar data points are
+2. Groups them into clusters (e.g., Group 0, Group 1, Group 2)
+3. Assigns each lead to one cluster
+
+:::info
+Even without knowing who converted, we might discover a group of high-revenue, highly engaged leads—useful for targeting!
+:::
+
+### Step 3: Visualize and Interpret
+
+Plotting Company Size vs. Number of Emails might reveal:
+- **Cluster A**: Small companies with low email volume
+- **Cluster B**: Large companies with high engagement
+- **Cluster C**: Medium companies with variable behavior
+
+---
+
+## Comparison Summary
+
+| Aspect | Supervised Learning | Unsupervised Learning |
+|--------|--------------------|-----------------------|
+| **Data Type** | Labeled (includes outcomes) | Unlabeled (no outcome column) |
+| **Goal** | Predict future outcomes | Find hidden patterns/groupings |
+| **Output** | Classification or Regression | Clusters or reduced features |
+| **Algorithms** | Logistic Regression, Decision Trees | K-Means, DBSCAN, PCA |
+| **Use Case** | "Will this lead become a client?" | "Which leads behave similarly?" |
+
+## Key Takeaways
+
+:::tip[Supervised Learning]
+Like a teacher showing students the answers during practice. The goal is to help the machine learn from known outcomes so it can predict future ones.
+:::
+
+:::tip[Unsupervised Learning]
+Like exploring a new city without a map. The goal is to discover natural groupings and patterns without predefined answers.
+:::
+        `,
+      },
+      {
+        id: 'email-classification-lab',
+        title: 'Classifying Emails with Machine Learning',
+        description: 'Build a supervised learning model to automatically classify incoming emails as "Important" or "Not Important" and analyze the results using an interactive dashboard.',
+        objectives: [
+          'Apply supervised learning to a real-world classification problem',
+          'Understand how ML models evaluate email importance',
+          'Explore data through interactive visualizations',
+          'Compare different AI model performance',
+        ],
+        tools: [
+          {
+            name: 'Interactive Dashboard (Streamlit)',
+            url: 'https://interactivedashboard.aicerts.ai/AI_Foundation_Lab_1_Email_Analysis',
+            type: 'Web-based ML visualization platform',
+          },
+        ],
+        content: `
+## Overview
+
+You're working as an intern at a tech startup that wants to create a machine learning model to automatically classify incoming emails as "Important" or "Not Important." Your challenge is to explore how supervised learning models make these classifications.
+
+## The Problem
+
+**Business Need**: Employees receive hundreds of emails daily. An ML model that automatically identifies important emails can save significant time and ensure critical messages aren't missed.
+
+**ML Approach**: Build a supervised classification model using labeled email data.
+
+## Step 1: Access the Dataset
+
+Download the sample dataset:
+[Email Dataset (Google Drive)](https://drive.google.com/file/d/1YgiYXgGoFanDo1Pz6xFT84Ep7-9rlKfv/view?usp=sharing)
+
+The dataset contains email features including:
+- Subject line text
+- Sender information
+- Email metadata
+- Sentiment scores
+- Region information
+- **Label**: Important / Not Important
+
+## Step 2: Launch the Interactive Dashboard
+
+1. Visit the [Email Analysis Dashboard](https://interactivedashboard.aicerts.ai/AI_Foundation_Lab_1_Email_Analysis)
+2. Upload your CSV dataset file
+3. Explore the dashboard filters and visualizations
+
+## Step 3: Explore the Dashboard Features
+
+### Available Filters
+
+| Filter | Purpose |
+|--------|---------|
+| **AI Model** | Compare different classification algorithms (Logistic Regression, etc.) |
+| **Email Importance Level** | Filter by Important / Not Important |
+| **Region** | Analyze emails by geographic region |
+
+### Key Visualizations
+
+:::card-grid
+:::card[chart][Sentiment Trend]
+Track daily average sentiment scores over time to identify patterns in email tone.
+:::card[eye][Importance Distribution]
+See the breakdown of Important vs. Not Important emails in your dataset.
+:::card[database][Regional Volume]
+Compare email volume across different regions (Global, Asia, Europe, North America).
+:::card[brain][Sentiment by Region]
+Analyze how email sentiment varies across geographic regions.
+:::end-grid
+
+## Step 4: Analyze Model Results
+
+After uploading your data, examine:
+
+### Filtered Data Sample
+Review individual emails and their classifications to understand what the model considers "Important."
+
+### Key Metrics to Observe
+- **Total Emails Analyzed**: Dataset size
+- **Important Email Percentage**: What proportion are classified as important?
+- **AI Model Used**: Which algorithm is making predictions?
+
+## Step 5: Experiment with Different Models
+
+Try selecting different AI models from the dropdown and observe:
+
+1. Does the Important/Not Important distribution change?
+2. How does sentiment analysis vary by model?
+3. Which regions have the most "Important" emails?
+
+## Key Insights to Look For
+
+:::info[Sample Insights]
+Based on typical analysis:
+- The region with highest volume might be **Global**
+- Most positive sentiment region might be **Europe**
+- Overall average sentiment score around **0.11**
+- Important emails typically represent **6-7%** of all emails
+:::
+
+## Discussion Questions
+
+1. **Feature Importance**: What features do you think the model uses most to classify importance?
+2. **Model Comparison**: Why might different models give different results?
+3. **Real-World Application**: How could you improve the model's accuracy for your specific use case?
+4. **Unsupervised Alternative**: How would approaching this with clustering (unsupervised) differ from classification (supervised)?
+
+## Supervised vs. Unsupervised Comparison
+
+| Approach | Method | Output |
+|----------|--------|--------|
+| **Supervised** | Train on labeled emails (Important/Not Important) | Predicts importance for new emails |
+| **Unsupervised** | Cluster emails by similarity | Groups emails with similar characteristics (may or may not align with importance) |
+
+:::key-concept[Key Takeaway]
+Supervised learning is ideal when you have labeled training data and a specific prediction goal. The model learns the patterns that distinguish "Important" from "Not Important" based on historical examples.
+:::
+
+## Next Steps
+
+Use these insights to:
+- Refine communication strategies
+- Filter out unimportant messages automatically
+- Prioritize responses to important emails
+- Understand regional communication patterns
+        `,
+      },
+    ],
     quiz: [
       {
         id: 'q1-1',
@@ -559,43 +961,64 @@ Hands-free commuting allows drivers to focus on other activities or relax during
   },
   {
     id: 'prompt-engineering',
-    title: 'Prompt Engineering',
-    description: 'Master the art of crafting effective prompts to get the best results from AI models.',
-    duration: '40 min',
+    title: 'Prompt Engineering - Interacting with AI',
+    description: 'Learn the crucial skill of designing effective prompts to guide AI models in generating accurate, relevant, and high-quality outputs across business, education, and creative industries.',
+    duration: '50 min',
     order: 2,
     lessons: [
       {
         id: 'defining-prompt-engineering',
         title: 'Defining Prompt Engineering',
         objectives: [
-          'Understand what prompt engineering is',
-          'Learn why prompts matter for AI output',
-          'Recognize the role of context in prompting',
+          'Define prompt engineering and understand its fundamental concepts',
+          'Recognize the importance of prompt engineering in optimizing AI interactions',
+          'Learn how effective prompts improve AI output quality and reduce bias',
+          'Understand the role of prompt engineering in AI adoption across industries',
         ],
         content: `
 ## What is Prompt Engineering?
 
-Prompt engineering is the practice of designing and refining inputs (prompts) to AI systems to achieve desired outputs. It's both an art and a science that requires understanding how AI models process and respond to information.
+:::key-concept[Definition]
+Prompt Engineering is the art and science of designing and refining inputs (prompts) to guide AI models in generating desired outputs. It involves structuring questions, commands, or requests to enhance AI's understanding and performance, ensuring responses are accurate, relevant, and aligned with specific goals.
+:::
 
-### Why Prompts Matter
+## Why Prompt Engineering Matters
 
-The quality of AI output is directly related to the quality of the input. A well-crafted prompt can:
-- Produce more accurate responses
-- Generate more relevant content
-- Reduce misunderstandings
-- Save time and resources
+:::card-grid
+:::card[chart][Improves Output Quality]
+Well-crafted prompts help generate more accurate, relevant, and coherent responses from AI models, enhancing the quality of every interaction.
+:::card[cog][Reduces Bias & Errors]
+Effective prompt engineering minimizes the risk of biased or incorrect responses by guiding AI in a specific direction with clear expectations.
+:::card[robot][Optimizes Efficiency]
+Properly structured prompts make AI models more efficient, saving time by reducing the need for multiple iterations and response refinements.
+:::card[brain][Enhances Customization]
+Prompt engineering allows users to tailor AI responses to meet specific needs across domains like business, healthcare, or education.
+:::end-grid
 
-### The Anatomy of a Prompt
+## The Power of Effective Prompts
 
-**Components of Effective Prompts:**
+:::feature-list
+:::feature[Enables Complex Tasks]
+By strategically crafting prompts, complex tasks can be broken down into manageable steps, allowing AI to tackle multifaceted problems more effectively.
+:::feature[Improves User-AI Interaction]
+Good prompt engineering ensures smoother, more intuitive interactions between users and AI, enhancing the overall user experience.
+:::feature[Boosts AI Adoption]
+As industries adopt AI tools, prompt engineering plays a key role in ensuring AI is used effectively to address real-world challenges.
+:::feature[Facilitates Learning]
+Effective prompts help AI models learn more effectively from data, improving their ability to adapt to new situations and generate innovative solutions.
+:::end-list
 
-1. **Context**: Background information the AI needs
-2. **Instruction**: Clear directive of what you want
-3. **Examples**: Sample inputs and outputs (few-shot learning)
-4. **Constraints**: Limitations or specifications
-5. **Format**: How you want the output structured
+## The Anatomy of a Prompt
 
-### Prompt vs. Traditional Programming
+| Component | Description | Example |
+|-----------|-------------|---------|
+| **Context** | Background information the AI needs | "You are a marketing expert..." |
+| **Instruction** | Clear directive of what you want | "Write a product description..." |
+| **Examples** | Sample inputs and outputs | "Like this: Input → Output" |
+| **Constraints** | Limitations or specifications | "Keep it under 200 words" |
+| **Format** | How you want the output structured | "Use bullet points" |
+
+## Prompt vs. Traditional Programming
 
 | Traditional Programming | Prompt Engineering |
 |------------------------|-------------------|
@@ -603,254 +1026,554 @@ The quality of AI output is directly related to the quality of the input. A well
 | Deterministic output | Probabilistic output |
 | Code syntax | Conversational input |
 | Fixed behavior | Adaptable responses |
+| Requires coding skills | Accessible to everyone |
 
-### The Iterative Process
+## The Iterative Process
 
-Prompt engineering is rarely perfect on the first try:
+:::timeline
+:::event[Step 1][Draft Initial Prompt]
+Start with a clear goal and formulate a targeted question or request aligned with your desired outcome.
+:::event[Step 2][Test with AI Model]
+Submit the prompt to the AI and observe the generated response carefully.
+:::event[Step 3][Analyze Output]
+Evaluate if the response meets expectations or if there are areas of ambiguity or misinterpretation.
+:::event[Step 4][Refine the Prompt]
+Modify based on feedback to make it more specific or provide additional context.
+:::event[Step 5][Repeat Until Satisfied]
+Continue the cycle for continuous improvement until the output aligns with your goals.
+:::end-timeline
 
-1. **Draft** initial prompt
-2. **Test** with the AI model
-3. **Analyze** the output
-4. **Refine** the prompt
-5. **Repeat** until satisfied
-
-### Key Principles
-
-- Be specific and clear
-- Provide relevant context
-- Use examples when helpful
-- Iterate and improve
-- Understand model capabilities
+:::tip
+Prompt engineering is a crucial skill for utilizing generative AI models effectively. The quality of AI output is directly related to the quality of your input—invest time in crafting clear, specific prompts to maximize AI's potential.
+:::
         `,
       },
       {
         id: 'well-crafted-prompts',
         title: 'Enhancement through Well-Crafted Prompts',
         objectives: [
-          'Learn techniques for writing better prompts',
-          'Understand prompt patterns and templates',
-          'Practice improving prompts systematically',
+          'Master techniques for writing more effective prompts',
+          'Learn to set clear objectives and provide appropriate context',
+          'Understand the iterative refinement process for prompt optimization',
+          'Apply prompt patterns and templates for consistent results',
         ],
         content: `
 ## Crafting Effective Prompts
 
-The difference between mediocre and excellent AI outputs often comes down to how well the prompt is constructed. Let's explore techniques for enhancement.
+:::key-concept[Enhancement Principle]
+Well-crafted prompts significantly enhance AI-driven analysis by ensuring precise, relevant, and context-aware outputs. Thoughtfully structured prompts help extract deeper insights, refine responses, and maximize AI's potential for decision-making.
+:::
 
-### Prompt Patterns
+## Key Aspects of Prompt Enhancement
 
+:::card-grid
+:::card[chart][Clear Objective Setting]
+Start with a clear goal to formulate a targeted question, ensuring AI generates responses aligned with your desired outcome.
+:::card[eye][Specificity in Prompts]
+Being specific prevents AI from generating broad or irrelevant responses, guiding it to provide more accurate, actionable answers.
+:::card[book][Contextualizing Prompts]
+Providing context helps AI better understand the prompt, improving accuracy while avoiding confusion from excessive information.
+:::card[cog][Balancing Specificity & Openness]
+Strike the right balance between specific and open-ended prompts to enable both targeted responses and creative exploration.
+:::end-grid
+
+## The Iterative Refinement Process
+
+| Stage | Description | Action |
+|-------|-------------|--------|
+| **Analyze Response** | Evaluate if AI's output meets expectations | Check for ambiguity or misinterpretation |
+| **Adjust Prompt** | Modify based on feedback | Add specificity or additional context |
+| **Re-evaluate** | Assess new responses | Repeat cycle for continuous improvement |
+| **Optimize** | Balance precision and creativity | Ensure alignment with objectives |
+
+## Prompt Patterns
+
+:::info
 **The Persona Pattern**
-\`\`\`
-Act as a [role/expert]. [Your task/question].
-\`\`\`
+"Act as a [role/expert]. [Your task/question]."
+
 Example: "Act as a senior software engineer. Review this code for security vulnerabilities."
 
 **The Template Pattern**
-\`\`\`
-Given [context], please [action] in the format of [structure].
-\`\`\`
+"Given [context], please [action] in the format of [structure]."
 
 **The Few-Shot Pattern**
-\`\`\`
-Here are some examples:
-Input: [example1] -> Output: [result1]
-Input: [example2] -> Output: [result2]
-Now, Input: [your input] -> Output:
-\`\`\`
+"Here are examples: Input: [ex1] → Output: [result1]. Now, Input: [your input] → Output:"
+:::
 
-### Techniques for Better Prompts
+## Example Prompt Improvements
 
-**1. Be Specific**
-- Bad: "Write about dogs"
-- Good: "Write a 200-word informative paragraph about the health benefits of owning a dog, targeting first-time pet owners"
+| Weak Prompt | Strong Prompt | Why It's Better |
+|-------------|---------------|-----------------|
+| "Write about AI" | "Write a 500-word blog post about AI benefits in education, focusing on personalized learning and real-time feedback" | Specific length, topic, and focus areas |
+| "Summarize this" | "Provide a 3-bullet summary of key points for executives, highlighting revenue growth and profit margins" | Clear format and specific content requirements |
+| "Fix the code" | "Debug this Python function and explain what was wrong, then suggest best practices" | Requests explanation and additional value |
+| "Make it better" | "Improve clarity and engagement while maintaining professional tone, focusing on environmental benefits" | Specific improvement criteria and focus |
 
-**2. Provide Context**
-- Include relevant background information
-- Specify your audience
-- Explain the purpose
+## Advanced Enhancement Techniques
 
-**3. Use Clear Structure**
-- Break complex tasks into steps
-- Use numbered lists
-- Specify format requirements
+:::feature-list
+:::feature[Chain of Thought]
+Ask the AI to show its reasoning step-by-step. This improves accuracy for complex problems and helps you understand how the AI arrived at its answer.
+:::feature[Self-Consistency]
+Generate multiple responses to the same prompt and compare them. This helps identify the most reliable and accurate output.
+:::feature[Iterative Refinement]
+Craft, test, analyze, and refine prompts continuously. Each iteration brings you closer to optimal results.
+:::feature[Precision and Creativity Balance]
+Effective prompt crafting involves both precision for exact responses and openness to allow AI to generate diverse ideas and innovative solutions.
+:::end-list
 
-**4. Set Constraints**
-- Length requirements
-- Style guidelines
-- Things to avoid
+:::warning
+Common Pitfalls to Avoid:
+- **Vague Instructions**: "Write something good" gives AI no direction
+- **Missing Context**: Without background, AI may make incorrect assumptions
+- **Overloading**: Too much information can confuse the model
+- **No Format Specification**: Results may come in unusable formats
+:::
 
-### Common Improvements
-
-| Weak Prompt | Strong Prompt |
-|-------------|---------------|
-| "Summarize this" | "Provide a 3-bullet summary of the key points for executives" |
-| "Fix the code" | "Debug this Python function and explain what was wrong" |
-| "Make it better" | "Improve the clarity and engagement of this marketing copy while maintaining the professional tone" |
-
-### Advanced Techniques
-
-- **Chain of Thought**: Ask the AI to show its reasoning
-- **Self-Consistency**: Generate multiple responses and compare
-- **Constitutional AI**: Include ethical guidelines in prompts
+:::tip
+The prompt engineering process is dynamic, requiring continuous adaptation based on AI response quality. Constant feedback and adjustment ensure optimal results over time. Remember: a few extra minutes crafting a great prompt saves hours of revisions!
+:::
         `,
       },
       {
         id: 'exploring-gpt4',
-        title: 'Exploring GPT-4',
+        title: 'Exploring GPT-4 & Large Language Models',
         objectives: [
-          'Understand GPT-4 capabilities',
-          'Learn optimal prompting strategies for GPT-4',
-          'Recognize limitations and best practices',
+          'Understand GPT-4 capabilities and advancements over previous models',
+          'Learn about enhanced context understanding and nuanced response generation',
+          'Recognize the diverse applications across industries',
+          'Master prompting strategies specific to GPT-4',
         ],
         content: `
 ## Understanding GPT-4
 
-GPT-4 (Generative Pre-trained Transformer 4) represents a significant advancement in large language models. Understanding its capabilities helps you craft better prompts.
+:::key-concept[GPT-4 Overview]
+GPT-4 is a powerful AI language model that enhances natural language understanding, data analysis, and decision-making across various domains. With advanced reasoning capabilities, it can process complex queries, generate insightful responses, and automate analytical tasks.
+:::
 
-### Key Capabilities
+## Key Features of GPT-4
 
-**Text Generation**
-- Long-form content creation
-- Multiple writing styles
-- Various formats (essays, code, poetry, etc.)
+:::card-grid
+:::card[brain][Enhanced Context Understanding]
+GPT-4 has improved ability to understand and retain context over longer conversations, leading to more coherent and relevant responses in extended interactions.
+:::card[chat][Nuanced Response Generation]
+Can generate more sophisticated responses, noticing subtle details and nuances in language to provide more insightful and tailored answers.
+:::card[database][Expanded Knowledge Base]
+Access to a broader and more up-to-date knowledge base, enabling accurate information across a wider range of topics and domains.
+:::card[book][Improved Language Coherence]
+Produces more coherent and natural-sounding responses, maintaining consistency throughout conversations for better user engagement.
+:::end-grid
 
-**Analysis and Reasoning**
-- Complex problem solving
-- Logical deduction
-- Pattern recognition
+## GPT-4 Capabilities Comparison
 
-**Code Understanding**
-- Multiple programming languages
-- Debugging assistance
-- Code explanation
+| Feature | Description | Real-World Example |
+|---------|-------------|-------------------|
+| **Context Retention** | Remembers information across long conversations | Customer service chat maintaining issue history |
+| **Complex Queries** | Breaks down multifaceted problems into digestible components | Explaining quantum computing step-by-step |
+| **Multilingual Support** | Improved performance across multiple languages | Accurate French, Spanish, Chinese translations |
+| **Reduced Bias** | Works to minimize biases and provide neutral answers | Fact-based responses on sensitive topics |
+| **Code Understanding** | Multiple programming languages support | Debugging, code review, generation |
 
-**Multimodal Processing** (GPT-4V)
-- Image understanding
-- Document analysis
-- Visual reasoning
+## Diverse Applications
 
-### What GPT-4 Does Well
+:::feature-list
+:::feature[Business Intelligence]
+GPT-4 aids trend prediction, pattern recognition, and strategic forecasting, making data-driven insights more accessible and actionable for decision-makers.
+:::feature[Healthcare Support]
+Assists in providing medical information, referencing latest research, and helping create patient-friendly explanations of complex procedures.
+:::feature[Education & Tutoring]
+Delivers clear, logically structured explanations for complex academic topics, adapting to different learning levels and styles.
+:::feature[Content Creation]
+Generates marketing content, blog posts, creative writing, and more while maintaining brand voice and target audience alignment.
+:::end-list
 
-1. **Following complex instructions**
-2. **Maintaining context over long conversations**
-3. **Creative writing and brainstorming**
-4. **Explaining complex topics simply**
-5. **Code generation and debugging**
+## Prompting Strategies for GPT-4
 
-### Current Limitations
-
-- Knowledge cutoff date
-- Cannot access real-time information
-- May produce plausible-sounding but incorrect information
-- Limited mathematical precision
-- Cannot execute code directly
-
-### Prompting Strategies for GPT-4
-
+:::info
 **System Prompts**
 Set the overall behavior and role:
-\`\`\`
-You are a helpful assistant that specializes in data analysis. Provide concise, accurate responses with relevant examples.
-\`\`\`
+"You are a helpful assistant specializing in data analysis. Provide concise, accurate responses with relevant examples."
 
 **Temperature Settings**
-- Lower (0-0.3): More focused, deterministic
-- Medium (0.4-0.7): Balanced creativity
-- Higher (0.8-1.0): More creative, varied
+- **Lower (0-0.3)**: More focused, deterministic responses for factual tasks
+- **Medium (0.4-0.7)**: Balanced creativity for general use
+- **Higher (0.8-1.0)**: More creative, varied outputs for brainstorming
+:::
 
-### Best Practices
+## Current Limitations
 
-- Start with clear objectives
-- Be explicit about format
-- Use examples for complex tasks
-- Iterate and refine
-- Verify important information
+:::warning
+Important Limitations to Consider:
+- **Knowledge Cutoff**: Training data has a cutoff date; cannot access real-time information
+- **Hallucinations**: May produce plausible-sounding but incorrect information
+- **Mathematical Precision**: Limited accuracy for complex calculations
+- **No Code Execution**: Cannot run code directly, only generate and analyze it
+- **No Internet Access**: Cannot browse web or access external databases
+:::
+
+## Best Practices for GPT-4
+
+:::timeline
+:::event[1][Start with Clear Objectives]
+Define what you want to achieve before crafting your prompt. Clarity leads to better results.
+:::event[2][Be Explicit About Format]
+Specify exactly how you want the output structured—bullet points, paragraphs, tables, etc.
+:::event[3][Use Examples for Complex Tasks]
+Provide sample inputs and outputs to guide the model's understanding of your requirements.
+:::event[4][Iterate and Refine]
+Don't expect perfection on the first try. Analyze outputs and adjust your prompts accordingly.
+:::event[5][Verify Important Information]
+Always fact-check critical information, especially for medical, legal, or financial content.
+:::end-timeline
+
+:::tip
+GPT-4's scalability and adaptability enable businesses to optimize workflows, improve efficiency, and make more informed decisions. Understanding its capabilities and limitations is key to leveraging its full potential.
+:::
         `,
       },
       {
         id: 'prompting-across-sectors',
-        title: 'Use-case: Prompting across Sectors',
+        title: 'Use-case: Prompting Techniques Across Sectors',
         objectives: [
-          'Apply prompt engineering to different industries',
-          'Learn sector-specific prompting techniques',
-          'Understand real-world applications',
+          'Apply prompt engineering techniques to solve industry-specific challenges',
+          'Learn sector-specific prompting strategies for healthcare, education, business, and more',
+          'Understand the significance of tailored prompts for different domains',
+          'Practice creating effective prompts for real-world scenarios',
         ],
         content: `
 ## Prompt Engineering Across Industries
 
-Different sectors have unique requirements for AI prompting. Let's explore how prompt engineering applies across various fields.
+:::key-concept[Industry Applications]
+Different sectors have unique requirements for AI prompting. Understanding sector-specific needs enables you to craft prompts that generate highly relevant, accurate, and actionable outputs tailored to each domain.
+:::
 
-### Healthcare
+## Healthcare Applications
 
-**Clinical Documentation**
-\`\`\`
-As a medical transcriptionist, convert the following doctor's notes into a structured clinical report with sections for: Chief Complaint, History of Present Illness, Physical Examination, and Assessment/Plan.
-\`\`\`
+:::card-grid
+:::card[heart][Personalized Treatment Plans]
+Use specific prompts to generate AI-driven recommendations based on patient data, medical history, and diagnostic results for individualized care.
+:::card[database][Medical Research]
+Open-ended prompts explore new drug formulations or treatment methods by leveraging vast medical databases and literature to accelerate research.
+:::end-grid
 
-**Patient Communication**
-\`\`\`
-Explain the following medical procedure in patient-friendly terms, avoiding jargon, for a patient with no medical background:
-\`\`\`
+:::info
+**Healthcare Prompt Example:**
+"Create a personalized treatment plan for a patient with Type 2 diabetes, considering their medical history, current medications, blood sugar levels, and lifestyle factors. Include dietary recommendations and exercise guidelines."
+:::
 
-### Finance
+## Education Applications
 
-**Risk Analysis**
-\`\`\`
-Analyze the following financial data and identify potential risks. Present findings in a table with Risk Factor, Likelihood, Impact, and Mitigation Strategy columns.
-\`\`\`
+:::card-grid
+:::card[book][Adaptive Learning]
+Specific prompts tailor educational content to learner needs, enhancing engagement with customized exercises and feedback based on learning styles.
+:::card[check][Knowledge Assessment]
+Structured prompts create quizzes and assessments aligned with educational objectives, ensuring thorough evaluations of student performance.
+:::end-grid
 
-**Report Generation**
-\`\`\`
-Create an executive summary of this quarterly financial report, highlighting key metrics, notable changes, and recommendations for stakeholders.
-\`\`\`
+:::info
+**Education Prompt Example:**
+"Create a quiz with 5 multiple-choice questions on climate change, with increasing difficulty levels. Include immediate feedback explaining why each answer is correct or incorrect."
+:::
 
-### Marketing
+## Business & Marketing Applications
 
-**Content Creation**
-\`\`\`
-Write a social media post for [platform] promoting [product/service]. Target audience: [demographic]. Tone: [professional/casual/urgent]. Include a call-to-action.
-\`\`\`
+:::card-grid
+:::card[chart][Customer Insights]
+Specific prompts analyze customer feedback, reviews, and behavior data to generate insights for improving products, services, and marketing strategies.
+:::card[chat][Content Creation]
+Open-ended prompts generate creative marketing materials, blog posts, and social media content that resonates with target audiences.
+:::end-grid
 
-**Customer Analysis**
-\`\`\`
-Analyze this customer feedback data and categorize sentiments. Identify the top 3 pain points and suggest improvements.
-\`\`\`
+:::info
+**Business Prompt Example:**
+"Summarize the key customer feedback trends from these reviews. Highlight common issues and feature requests to guide product improvement. Format as a prioritized list with action items."
+:::
 
-### Education
+## Finance Applications
 
-**Lesson Planning**
-\`\`\`
-Create a lesson plan for teaching [topic] to [grade level] students. Include learning objectives, activities, assessment methods, and differentiation strategies.
-\`\`\`
+:::card-grid
+:::card[shield][Risk Analysis]
+Structured prompts guide AI in extracting and analyzing financial data, helping identify potential risks, investment opportunities, and market trends.
+:::card[cog][Fraud Detection]
+Specific prompts enable AI to analyze transaction patterns and flag suspicious activities for real-time fraud prevention.
+:::end-grid
 
-**Student Feedback**
-\`\`\`
-Provide constructive feedback on this student essay. Highlight strengths, areas for improvement, and specific suggestions while maintaining an encouraging tone.
-\`\`\`
+:::info
+**Finance Prompt Example:**
+"Analyze the following financial data and identify potential risks. Present findings in a table with columns for Risk Factor, Likelihood (High/Medium/Low), Potential Impact, and Recommended Mitigation Strategy."
+:::
 
-### Legal
+## Creative Industries Applications
 
-**Contract Review**
-\`\`\`
-Review this contract clause and identify potential issues or ambiguities. Suggest clearer language alternatives.
-\`\`\`
+:::card-grid
+:::card[star][Content Generation]
+Open-ended prompts unlock creativity, allowing AI to generate artwork concepts, designs, or stories based on user input and creative direction.
+:::card[robot][Game Design]
+Specific prompts generate game design elements such as character dialogue, plot ideas, or narrative arcs for engaging player experiences.
+:::end-grid
 
-**Research Summary**
-\`\`\`
-Summarize the key legal precedents related to [topic] in plain language suitable for a non-legal audience.
-\`\`\`
+:::info
+**Creative Prompt Example:**
+"Write a 30-second script for a commercial promoting a new AI-powered health app. Highlight its key features: real-time health monitoring, personalized recommendations, and 24/7 AI chat support. Tone: friendly and inspiring."
+:::
 
-### Key Takeaways
+## Customer Service Applications
 
-- Adapt prompts to sector-specific terminology
-- Include relevant context and constraints
-- Specify compliance requirements where applicable
-- Use domain-appropriate examples
+:::card-grid
+:::card[chat][Intelligent Chatbots]
+Well-structured prompts guide AI chatbots in delivering personalized and contextually accurate responses to customer inquiries.
+:::card[cog][Automated Troubleshooting]
+Specific prompts guide AI systems in diagnosing technical issues based on user input, enabling faster resolution.
+:::end-grid
+
+:::info
+**Customer Service Prompt Example:**
+"Write an automated response for a customer inquiring about the return policy for a defective product. Include clear instructions, expected timeline, and next steps. Tone: helpful and empathetic."
+:::
+
+## Cross-Industry Best Practices
+
+| Practice | Description |
+|----------|-------------|
+| **Domain Terminology** | Use industry-specific language and jargon appropriately |
+| **Compliance Awareness** | Include regulatory requirements (HIPAA, GDPR, etc.) where applicable |
+| **Context Setting** | Provide relevant background about the industry and use case |
+| **Output Specification** | Define exactly what format and structure you need |
+| **Quality Standards** | Specify accuracy requirements and verification needs |
+
+:::tip
+The key to effective sector-specific prompting is understanding both the domain's unique requirements and AI's capabilities. Always adapt prompts to include relevant terminology, compliance considerations, and output formats specific to each industry.
+:::
+        `,
+      },
+    ],
+    labs: [
+      {
+        id: 'exploring-chatgpt-principles',
+        title: 'Exploring ChatGPT\'s 5 Key Principles',
+        description: 'Practice the five key prompting principles: Giving Direction, Formatting Responses, Providing Examples, Evaluating Quality, and Dividing Labor.',
+        objectives: [
+          'Apply the five key prompting principles in ChatGPT',
+          'Practice giving clear direction to AI models',
+          'Learn to format responses for specific needs',
+          'Evaluate AI output quality and refine prompts',
+        ],
+        tools: [
+          { name: 'ChatGPT', url: 'https://chat.openai.com', type: 'ai-assistant' },
+        ],
+        content: `
+## Lab Overview
+
+In this hands-on lab, you'll practice the five key principles of effective prompting using ChatGPT.
+
+## The Five Principles
+
+:::card-grid
+:::card[chat][Giving Direction]
+Create clear prompts that guide AI in producing desired outcomes for various tasks.
+:::card[book][Formatting Responses]
+Design prompts that guide AI to format responses in specific structures (bullet points, tables, paragraphs).
+:::card[star][Providing Examples]
+Include examples in prompts to help AI understand context and generate more accurate responses.
+:::card[check][Evaluating Quality]
+Assess AI-generated responses based on clarity, relevance, accuracy, and coherence.
+:::end-grid
+
+## Exercise 1: Giving Direction
+
+**Step 1:** Open ChatGPT in your browser
+
+**Step 2:** Try these prompts and observe the difference in outputs:
+
+**Weak Prompt:**
+"Write about AI"
+
+**Strong Prompt:**
+"Write a 500-word blog post outlining the benefits of AI in education, focusing on personalized learning, adaptive learning platforms, and real-time feedback for students."
+
+**Try These Variations:**
+- "Using this advice, can I have a list of product names for a pair of shoes that can fit any foot size?"
+- "Rose flower, painted in the style of Van Gogh"
+- "Give me exercises for leg pain for people over 50 years old"
+
+## Exercise 2: Formatting Responses
+
+**Task:** Get AI to format information in different ways
+
+**Prompt for Bullet Points:**
+"Summarize the top five benefits of using AI in customer service. Format your response in bullet points and ensure each benefit is clearly explained."
+
+**Prompt for Table Format:**
+"Compare supervised learning and unsupervised learning. Present as a table with columns for: Aspect, Supervised Learning, Unsupervised Learning."
+
+**Prompt for Numbered Steps:**
+"Explain how to create an effective prompt. Present as numbered steps from 1-5."
+
+## Exercise 3: Providing Examples
+
+**Task:** Use examples to guide AI output
+
+**Without Example:**
+"Write a product description"
+
+**With Example:**
+"Write a product description for a new eco-friendly water bottle. For example, consider highlighting its environmental benefits like 'Made from 100% recycled materials' and practical features like 'Keeps drinks cold for 24 hours'."
+
+## Exercise 4: Evaluating Quality
+
+**Task:** Evaluate and improve AI responses
+
+**Step 1:** Submit this prompt:
+"Describe the impact of climate change on agriculture"
+
+**Step 2:** Evaluate the response:
+- Did it cover environmental impacts?
+- Did it include economic impacts?
+- Was the information accurate and relevant?
+
+**Step 3:** Refine the prompt:
+"Describe the impact of climate change on agriculture. Include both environmental effects (drought, flooding) and economic consequences (crop prices, farmer income). Provide specific examples from different regions."
+
+## Exercise 5: Dividing Labor
+
+**Task:** Break complex tasks into components
+
+**Complex Task:** Analyze an article about AI in education
+
+**Divided Approach:**
+"First, summarize the main points of the article on AI in education. Then, analyze the data presented in the article to highlight trends and key insights. Please ensure to separate the summary and analysis into distinct sections."
+
+## Reflection Questions
+
+1. How did the specificity of your prompts affect the quality of outputs?
+2. Which formatting technique was most effective for your use case?
+3. How did providing examples change the AI's responses?
+4. What patterns did you notice when evaluating quality?
+        `,
+      },
+      {
+        id: 'ai-prompting-efficiency',
+        title: 'AI Prompting Efficiency',
+        description: 'Discover how GPT-4 transforms industries with practical demonstrations in business, healthcare, education, and creative sectors.',
+        objectives: [
+          'Apply prompt engineering to real-world industry scenarios',
+          'Generate business insights using customer review analysis',
+          'Create healthcare-related content with appropriate prompts',
+          'Develop educational materials using adaptive learning prompts',
+        ],
+        tools: [
+          { name: 'ChatGPT', url: 'https://chat.openai.com', type: 'ai-assistant' },
+        ],
+        content: `
+## Lab Overview
+
+In this lab, you'll explore how GPT-4 and similar AI models transform different industries through effective prompting.
+
+## Exercise 1: Transforming Business
+
+**Scenario:** You're a product manager who needs to analyze customer reviews.
+
+**Task:** Analyze customer reviews to identify key trends for improving a product.
+
+**Prompt:**
+"Summarize the key customer feedback trends from the reviews. Highlight common issues and feature requests to guide product improvement."
+
+**Follow-up Prompt:**
+"Based on these trends, create a prioritized list of product improvements with estimated impact (High/Medium/Low) and suggested timelines."
+
+## Exercise 2: Transforming Healthcare
+
+**Scenario:** You're helping create patient education materials.
+
+**Task:** Generate a personalized communication for a patient.
+
+**Prompt:**
+"Create a personalized treatment plan summary for a patient with diabetes, considering their medical history and current health status. Use patient-friendly language and include:
+1. Type of Diabetes (Type 2)
+2. Dietary recommendations
+3. Exercise guidelines
+4. Medication reminders
+5. When to contact their doctor"
+
+:::warning
+Note: This is for educational purposes only. Always consult healthcare professionals for actual medical advice.
+:::
+
+## Exercise 3: Transforming Education
+
+**Scenario:** You're an educator creating adaptive learning content.
+
+**Task:** Generate quiz questions with feedback.
+
+**Prompt:**
+"Create a quiz with 5 multiple-choice questions on climate change, with increasing difficulty levels and immediate feedback for each question. Include:
+- Question text
+- Four answer options (A, B, C, D)
+- Correct answer
+- Explanation of why the answer is correct"
+
+## Exercise 4: Transforming Creative Industries
+
+**Scenario:** You're a marketing professional creating ad content.
+
+**Task:** Create a script for a short advertisement.
+
+**Prompt:**
+"Write a 30-second script for a commercial promoting a new AI-powered health app, highlighting its features and benefits. Include:
+- Opening hook
+- Key features (real-time monitoring, personalized recommendations, AI chat support)
+- Call to action
+- Closing tagline"
+
+## Exercise 5: Transforming Customer Service
+
+**Scenario:** You're setting up automated customer support.
+
+**Task:** Generate an automated response for a common inquiry.
+
+**Prompt:**
+"Write an automated response for a customer inquiring about the return policy for a defective product. Include:
+- Acknowledgment of the issue
+- Clear return instructions
+- Expected timeline
+- Contact information for additional help
+- Empathetic and helpful tone"
+
+## Challenge: Cross-Industry Application
+
+**Task:** Choose an industry you're interested in and create three prompts that would help solve a real problem in that field.
+
+**Template:**
+1. **Industry:** [Your chosen industry]
+2. **Problem:** [Specific challenge to solve]
+3. **Prompt 1:** [Information gathering prompt]
+4. **Prompt 2:** [Analysis prompt]
+5. **Prompt 3:** [Action/solution prompt]
+
+## Reflection
+
+After completing the exercises, consider:
+- Which industry application was most effective?
+- How did specificity affect the quality of outputs?
+- What patterns can you apply to your own work?
         `,
       },
     ],
     quiz: [
       {
         id: 'q2-1',
+        question: 'What is prompt engineering?',
+        options: [
+          'Writing computer code for AI systems',
+          'Designing and refining inputs to guide AI models in generating desired outputs',
+          'Building hardware for AI applications',
+          'Training AI models from scratch',
+        ],
+        correctAnswer: 1,
+      },
+      {
+        id: 'q2-2',
         question: 'What are the main components of an effective prompt?',
         options: [
           'Only the question you want answered',
@@ -861,29 +1584,51 @@ Summarize the key legal precedents related to [topic] in plain language suitable
         correctAnswer: 1,
       },
       {
-        id: 'q2-2',
+        id: 'q2-3',
         question: 'Which prompt pattern involves providing the AI with a role to assume?',
         options: [
           'The Template Pattern',
           'The Few-Shot Pattern',
           'The Persona Pattern',
-          'The Chain Pattern',
-        ],
-        correctAnswer: 2,
-      },
-      {
-        id: 'q2-3',
-        question: 'What is a limitation of GPT-4?',
-        options: [
-          'Cannot understand multiple languages',
-          'Cannot generate any code',
-          'Has a knowledge cutoff date and cannot access real-time information',
-          'Can only respond with one sentence at a time',
+          'The Chain of Thought Pattern',
         ],
         correctAnswer: 2,
       },
       {
         id: 'q2-4',
+        question: 'What is a key benefit of effective prompt engineering?',
+        options: [
+          'It makes AI models run faster',
+          'It reduces bias and errors by guiding AI with clear expectations',
+          'It eliminates the need for AI training',
+          'It allows AI to access the internet',
+        ],
+        correctAnswer: 1,
+      },
+      {
+        id: 'q2-5',
+        question: 'What is iterative refinement in prompt engineering?',
+        options: [
+          'Writing the longest possible prompt',
+          'Drafting, testing, analyzing, and refining prompts until optimal results are achieved',
+          'Using the same prompt repeatedly',
+          'Avoiding any changes to initial prompts',
+        ],
+        correctAnswer: 1,
+      },
+      {
+        id: 'q2-6',
+        question: 'Which GPT-4 feature allows it to maintain coherent long conversations?',
+        options: [
+          'Reduced bias',
+          'Enhanced context understanding',
+          'Multimodal processing',
+          'Code execution',
+        ],
+        correctAnswer: 1,
+      },
+      {
+        id: 'q2-7',
         question: 'When would you use a lower temperature setting (0-0.3) with an AI model?',
         options: [
           'When you want highly creative and varied responses',
@@ -894,7 +1639,7 @@ Summarize the key legal precedents related to [topic] in plain language suitable
         correctAnswer: 1,
       },
       {
-        id: 'q2-5',
+        id: 'q2-8',
         question: 'Which is an example of improving a weak prompt?',
         options: [
           'Changing "Write about cats" to "Write something"',
@@ -903,6 +1648,28 @@ Summarize the key legal precedents related to [topic] in plain language suitable
           'Making the prompt longer without adding specific details',
         ],
         correctAnswer: 2,
+      },
+      {
+        id: 'q2-9',
+        question: 'What is a current limitation of GPT-4?',
+        options: [
+          'Cannot understand multiple languages',
+          'Cannot generate any code',
+          'Has a knowledge cutoff date and may produce plausible but incorrect information',
+          'Can only respond with one sentence at a time',
+        ],
+        correctAnswer: 2,
+      },
+      {
+        id: 'q2-10',
+        question: 'In healthcare prompting, why is it important to include compliance considerations?',
+        options: [
+          'To make prompts longer',
+          'To ensure outputs adhere to regulations like HIPAA and protect patient privacy',
+          'To confuse the AI model',
+          'Compliance has no relevance to prompting',
+        ],
+        correctAnswer: 1,
       },
     ],
   },
@@ -2343,4 +3110,13 @@ export function getAdjacentLessons(
     prev: lessonIndex > 0 ? module.lessons[lessonIndex - 1] : null,
     next: lessonIndex < module.lessons.length - 1 ? module.lessons[lessonIndex + 1] : null,
   }
+}
+
+export function getModuleLabs(moduleId: string): Lab[] | undefined {
+  return getModule(moduleId)?.labs
+}
+
+export function getLab(moduleId: string, labId: string): Lab | undefined {
+  const module = getModule(moduleId)
+  return module?.labs?.find((l) => l.id === labId)
 }

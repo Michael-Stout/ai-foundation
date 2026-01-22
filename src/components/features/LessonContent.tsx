@@ -119,15 +119,15 @@ function formatContent(content: string): string {
     if (line.startsWith('## ')) {
       if (inList) { html += '</ul>'; inList = false }
       if (inOrderedList) { html += '</ol>'; inOrderedList = false }
-      html += `<h2>${formatInline(line.slice(3))}</h2>`
+      html += `<h2 class="text-2xl font-bold text-foreground mt-8 mb-4">${formatInline(line.slice(3))}</h2>`
     } else if (line.startsWith('### ')) {
       if (inList) { html += '</ul>'; inList = false }
       if (inOrderedList) { html += '</ol>'; inOrderedList = false }
-      html += `<h3>${formatInline(line.slice(4))}</h3>`
+      html += `<h3 class="text-xl font-semibold text-foreground mt-6 mb-3">${formatInline(line.slice(4))}</h3>`
     } else if (line.startsWith('#### ')) {
       if (inList) { html += '</ul>'; inList = false }
       if (inOrderedList) { html += '</ol>'; inOrderedList = false }
-      html += `<h4>${formatInline(line.slice(5))}</h4>`
+      html += `<h4 class="text-lg font-medium text-foreground mt-4 mb-2">${formatInline(line.slice(5))}</h4>`
     } else if (line.match(/^- /)) {
       if (inOrderedList) { html += '</ol>'; inOrderedList = false }
       if (!inList) { html += '<ul>'; inList = true }
@@ -273,31 +273,62 @@ function processSpecialBlocks(content: string): string {
     }
   )
 
-  // Process :::feature-list blocks
+  // Process :::feature-list blocks with :::feature[Title] syntax
   content = content.replace(
     /:::feature-list\s*\n([\s\S]*?)\n:::end-list/g,
     (_, inner) => {
+      // Handle :::feature[Title] format
+      const featureMatches = inner.matchAll(/:::feature\[([^\]]+)\]\s*\n([^\n:]+(?:\n(?!:::)[^\n]+)*)/g)
+      const features = Array.from(featureMatches)
+
+      if (features.length > 0) {
+        const listHtml = (features as RegExpMatchArray[]).map((match, index) => {
+          const title = match[1]
+          const description = match[2].trim()
+          const icons = [
+            '<svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>',
+            '<svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>',
+            '<svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>',
+            '<svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>',
+            '<svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>',
+          ]
+          const icon = icons[index % icons.length]
+          return `
+<div class="rounded-xl border border-border bg-card p-5 hover:border-primary/50 transition-colors">
+  <div class="flex items-center gap-3 mb-3">
+    <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+      ${icon}
+    </div>
+    <h4 class="font-semibold text-foreground text-base">${title}</h4>
+  </div>
+  <div class="text-foreground-muted text-sm leading-relaxed">${description}</div>
+</div>`
+        }).join('')
+        return `<div class="my-6 grid grid-cols-1 md:grid-cols-2 gap-4">${listHtml}</div>`
+      }
+
+      // Fallback to old format: - **Title**: Description
       const items = inner.trim().split('\n').filter((line: string) => line.startsWith('- '))
       const listHtml = items.map((item: string) => {
         const match = item.match(/^- \*\*([^*]+)\*\*:\s*(.+)$/)
         if (match) {
           const [, title, description] = match
           return `
-<div class="flex items-start gap-3 p-3 rounded-lg hover:bg-background-secondary transition-colors">
-  <div class="flex-shrink-0 mt-0.5">
-    <svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-    </svg>
+<div class="rounded-xl border border-border bg-card p-5 hover:border-primary/50 transition-colors">
+  <div class="flex items-center gap-3 mb-3">
+    <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+      <svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+    <h4 class="font-semibold text-foreground text-base">${title}</h4>
   </div>
-  <div>
-    <div class="font-medium text-foreground">${title}</div>
-    <div class="text-foreground-muted text-sm">${description}</div>
-  </div>
+  <div class="text-foreground-muted text-sm leading-relaxed">${description}</div>
 </div>`
         }
         return ''
       }).join('')
-      return `<div class="my-6 space-y-1 rounded-xl border border-border bg-card p-2">${listHtml}</div>`
+      return `<div class="my-6 grid grid-cols-1 md:grid-cols-2 gap-4">${listHtml}</div>`
     }
   )
 

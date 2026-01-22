@@ -63,38 +63,51 @@ export default async function ModulePage({ params }: ModulePageProps) {
       </div>
 
       <div className="mb-8">
-        <div className="flex items-start justify-between">
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                <span className="text-xl font-bold text-primary">{module.order}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Badge variant="default">{module.duration}</Badge>
-                {quizPassed && <Badge variant="success">Completed</Badge>}
-              </div>
-            </div>
-            <h1 className="mt-4 text-3xl font-bold text-foreground">{module.title}</h1>
-            <p className="mt-2 text-foreground-muted">{module.description}</p>
+        <div className="flex items-center gap-4">
+          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
+            <span className="text-xl font-bold text-primary">{module.order}</span>
           </div>
+          <h1 className="text-3xl font-bold text-foreground">{module.title}</h1>
+        </div>
+        <p className="mt-3 text-foreground-muted">{module.description}</p>
+        <div className="mt-3 flex items-center gap-2">
+          <Badge variant="default">{module.duration}</Badge>
+          {quizPassed && <Badge variant="success">Completed</Badge>}
         </div>
 
-        <div className="mt-6 rounded-xl border border-border bg-card p-4">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-foreground-muted">Module Progress</span>
-            <span className="font-medium text-foreground">
+        <div className="mt-6">
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-medium text-foreground">Module Progress</span>
+            <span className="text-lg font-semibold text-primary">
               {completedLessons.length} of {module.lessons.length} lessons completed
             </span>
           </div>
-          <Progress value={progressPercent} className="mt-2" />
+          <Progress value={progressPercent} size="lg" className="mt-3" />
         </div>
       </div>
 
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-foreground">Lessons</h2>
+      <div>
+        <h2 className="text-xl font-semibold text-foreground mb-4">Lessons</h2>
+        <div className="grid gap-4">
         {module.lessons.map((lesson, index) => {
           const isCompleted = completedLessons.some((p) => p.lessonId === lesson.id)
           const isLocked = false
+          const gradients = [
+            'from-cyan-500/10 via-blue-500/5 to-indigo-500/10 border-cyan-500/20 hover:border-cyan-500/40',
+            'from-emerald-500/10 via-green-500/5 to-teal-500/10 border-emerald-500/20 hover:border-emerald-500/40',
+            'from-orange-500/10 via-amber-500/5 to-yellow-500/10 border-orange-500/20 hover:border-orange-500/40',
+            'from-violet-500/10 via-purple-500/5 to-fuchsia-500/10 border-violet-500/20 hover:border-violet-500/40',
+            'from-rose-500/10 via-pink-500/5 to-red-500/10 border-rose-500/20 hover:border-rose-500/40',
+          ]
+          const iconColors = [
+            'from-cyan-500 to-blue-600 shadow-cyan-500/40',
+            'from-emerald-500 to-green-600 shadow-emerald-500/40',
+            'from-orange-500 to-amber-600 shadow-orange-500/40',
+            'from-violet-500 to-purple-600 shadow-violet-500/40',
+            'from-rose-500 to-pink-600 shadow-rose-500/40',
+          ]
+          const gradient = gradients[index % gradients.length]
+          const iconColor = iconColors[index % iconColors.length]
 
           return (
             <Link
@@ -102,25 +115,36 @@ export default async function ModulePage({ params }: ModulePageProps) {
               href={isLocked ? '#' : `/modules/${moduleId}/${lesson.id}`}
               className={isLocked ? 'cursor-not-allowed' : ''}
             >
-              <Card className={`hover:border-primary/50 ${isLocked ? 'opacity-60' : ''}`}>
-                <CardContent className="flex items-center gap-4 py-4">
-                  <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-full ${
-                      isCompleted
-                        ? 'bg-success text-success-foreground'
-                        : 'bg-background-secondary text-foreground-muted'
-                    }`}
-                  >
+              <div className={`
+                relative overflow-hidden rounded-2xl p-5
+                bg-gradient-to-br ${gradient}
+                border transition-all duration-300
+                hover:shadow-lg hover:scale-[1.01]
+                group cursor-pointer
+                ${isLocked ? 'opacity-60' : ''}
+              `}>
+                <div className="flex items-center gap-4">
+                  <div className={`
+                    flex-shrink-0 w-12 h-12 rounded-xl
+                    ${isCompleted
+                      ? 'bg-gradient-to-br from-success to-emerald-600 shadow-lg shadow-success/40'
+                      : `bg-gradient-to-br ${iconColor} shadow-lg`}
+                    flex items-center justify-center
+                    transition-transform duration-300
+                    group-hover:scale-110
+                  `}>
                     {isCompleted ? (
-                      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     ) : (
-                      <span className="text-sm font-medium">{index + 1}</span>
+                      <span className="text-white font-bold text-lg">{index + 1}</span>
                     )}
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-medium text-foreground">{lesson.title}</h3>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-foreground text-lg group-hover:text-primary transition-colors">
+                      {lesson.title}
+                    </h3>
                     {lesson.objectives && (
                       <p className="mt-1 text-sm text-foreground-muted">
                         {lesson.objectives.length} learning objectives
@@ -128,16 +152,103 @@ export default async function ModulePage({ params }: ModulePageProps) {
                     )}
                   </div>
                   {!isLocked && (
-                    <svg className="h-5 w-5 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    <div className="
+                      flex-shrink-0 w-10 h-10 rounded-full
+                      bg-foreground/5 border border-foreground/10
+                      flex items-center justify-center
+                      group-hover:bg-primary/10 group-hover:border-primary/30
+                      transition-all duration-300
+                    ">
+                      <svg
+                        className="h-5 w-5 text-foreground-muted group-hover:text-primary transition-colors"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </Link>
           )
         })}
+        </div>
       </div>
+
+      {/* Labs Section */}
+      {module.labs && module.labs.length > 0 && (
+        <div className="mt-10 space-y-4">
+          <h2 className="text-xl font-semibold text-foreground">Labs</h2>
+
+          {/* Lab Cards */}
+          <div className="grid gap-4">
+            {module.labs.map((lab, index) => {
+              const gradients = [
+                'from-cyan-500/10 via-blue-500/5 to-indigo-500/10 border-cyan-500/20 hover:border-cyan-500/40',
+                'from-emerald-500/10 via-green-500/5 to-teal-500/10 border-emerald-500/20 hover:border-emerald-500/40',
+                'from-orange-500/10 via-amber-500/5 to-yellow-500/10 border-orange-500/20 hover:border-orange-500/40',
+              ]
+              const iconColors = [
+                'from-cyan-500 to-blue-600 shadow-cyan-500/40',
+                'from-emerald-500 to-green-600 shadow-emerald-500/40',
+                'from-orange-500 to-amber-600 shadow-orange-500/40',
+              ]
+              const gradient = gradients[index % gradients.length]
+              const iconColor = iconColors[index % iconColors.length]
+
+              return (
+                <Link key={lab.id} href={`/modules/${moduleId}/labs/${lab.id}`}>
+                  <div className={`
+                    relative overflow-hidden rounded-2xl p-5
+                    bg-gradient-to-br ${gradient}
+                    border transition-all duration-300
+                    hover:shadow-lg hover:scale-[1.01]
+                    group cursor-pointer
+                  `}>
+                    <div className="flex items-center gap-4">
+                      <div className={`
+                        flex-shrink-0 w-12 h-12 rounded-xl
+                        bg-gradient-to-br ${iconColor}
+                        flex items-center justify-center
+                        shadow-lg transition-transform duration-300
+                        group-hover:scale-110
+                      `}>
+                        <span className="text-white font-bold text-lg">{index + 1}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-foreground text-lg group-hover:text-primary transition-colors">
+                          {lab.title}
+                        </h3>
+                        <p className="mt-1 text-sm text-foreground-muted line-clamp-1">
+                          {lab.description}
+                        </p>
+                      </div>
+                      <div className="
+                        flex-shrink-0 w-10 h-10 rounded-full
+                        bg-foreground/5 border border-foreground/10
+                        flex items-center justify-center
+                        group-hover:bg-primary/10 group-hover:border-primary/30
+                        transition-all duration-300
+                      ">
+                        <svg
+                          className="h-5 w-5 text-foreground-muted group-hover:text-primary transition-colors"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="mt-8 rounded-xl border border-border bg-card p-6">
         <div className="flex items-center justify-between">
