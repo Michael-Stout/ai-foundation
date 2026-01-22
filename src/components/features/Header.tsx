@@ -17,8 +17,8 @@ export function Header() {
           <Image
             src="/michael_stout_ai.png"
             alt="Michael Stout AI"
-            width={128}
-            height={128}
+            width={96}
+            height={96}
             className="rounded-lg"
           />
         </Link>

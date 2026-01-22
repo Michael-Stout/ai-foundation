@@ -10,20 +10,20 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center">
+            <div className="flex items-center gap-4">
               <Image
                 src="/michael_stout_ai.png"
                 alt="Michael Stout AI"
-                width={128}
-                height={128}
-                className="rounded-lg"
+                width={72}
+                height={72}
+                className="rounded-lg flex-shrink-0"
               />
+              <p className="max-w-md text-foreground-muted">
+                Master the fundamentals of artificial intelligence with my comprehensive
+                learning program. Learn at your own pace with interactive modules
+                and quizzes.
+              </p>
             </div>
-            <p className="mt-4 max-w-md text-foreground-muted">
-              Master the fundamentals of artificial intelligence with my comprehensive
-              learning program. Learn at your own pace with interactive modules
-              and quizzes.
-            </p>
           </div>
 
           {/* Quick Links */}
